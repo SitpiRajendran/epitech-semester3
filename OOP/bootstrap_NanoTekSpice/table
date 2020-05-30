@@ -1,0 +1,14 @@
+========      AND &&      ==============
+
+			true	undefined	false
+true		  T			U		  F
+undefined     U			U		  F
+false		  F			F		  F
+
+
+========       OR ||      ==============
+
+			true	undefined	false
+true		  T			T		  T
+undefined     T			U		  U
+false		  T			U		  F

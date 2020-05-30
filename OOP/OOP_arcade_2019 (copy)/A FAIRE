@@ -1,0 +1,9 @@
+IDISPLAY
+    get_key() - return keyboard entries // playing and changing lib
+    display_text(string, pos x, pos y)
+    diplay_element(pos x, pos y, colour, size);
+
+IGames
+    display_element_menu(map)
+    display_element_snake(map)
+    display_element_centipede(map)
