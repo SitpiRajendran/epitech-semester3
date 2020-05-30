@@ -1,0 +1,13 @@
+Notre projet est composé de deux parties, une pour les élèves de primaire, et une autre pour ceux du collège :
+
+ - Un forum des sports organisés par Nike dans les écoles primaires. Le but est de tester les activités en présence des professionnels des clubs alentours.
+
+ - Un challenge pour les collègiennes : 5 Sports en 1 Mois, le but est de leur faire découvrir des sports et de leurs faires tester ceux-ci.
+
+---------------------------------------------------------------------------------
+
+Our project is made up of two parts, one for elementary students, and another for those in middle school:
+
+- A sports forum organized by Nike in primary schools. The goal is to test the activities in the presence of professionals from the surrounding sports clubs.
+
+- A challenge for middleschool girls : 5 Sports in 1 Month, the goal is to make them discover sports and to make them test thoses sports.
