@@ -42,5 +42,7 @@ imageCompressor : 91.7%
 		objdump section name tests : 100%
   
   wolfram : 23.8%
+  
   malloc : 72.2%
+  
   MiniLibC : 98.9%
