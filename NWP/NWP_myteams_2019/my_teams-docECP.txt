@@ -1,0 +1,309 @@
+Internet Communication Protocol
+Category: Informational
+
+
+
+EPITECH CHAT PROTOCOL
+Status of this Memo
+	This memo defines states and status of the Epitech Chat Protocol.
+
+Abstract
+	The EC Protocol was developed for an Epitech project, by three students. It's a text-based protocol, with the simplest client being any socket program capable of connecting to the server.
+
+Table of Contents
+	1. INTRODUCTION
+		1.1 Server
+		1.2 Client
+		1.3 Communication
+			1.3.1 Teams
+			1.3.2. Channels
+			1.3.3 Threads
+			1.3.4 One to One
+	2. THE EPC SPECIFICATION
+		2.1 Overview
+		2.2 Valid characters
+		2.3 Command Format
+	3. MESSAGE DETAILS
+		3.1 Connection
+		3.2  User commands
+		3.3 Message commands
+		3.4 Teams command
+		3.5 Channels commands
+		3.6 Thread commands
+		3.7 Server commands
+	4. Error Replies
+		4.1 Client Error
+		4.2 Server Error
+
+
+1. INTRODUCTION
+EpiChat communication protocol (ECP), is an internet chat communication protocol using TCP/IP. A basic configuration could be a single server, with multiple clients connected to it, with the server treating data sent by the clients.
+
+1.1 Server
+A server is the central point of the ECP, it connects the clients to each other and permits them to send and receive messages.
+1.2 Client
+A client is a program that connects to a server. It is used to send and read messages sent by others clients. The user use a CLI to send and read messages. The CLI use commands, described in the next chapter.
+
+1.3 Communication
+There are different ways to communicate with the ECP : Teams, Channels, Thread, one to one.
+
+1.3.1 Teams
+A team is a named group composed of noe or more channels. Clients can subscribe and will all receivre message.
+Teams names are strings which can only contains alpha numeric characters and space. Team description are strings which can contains only alphanumeric characters and -_ /.
+Commands related to teams : CREATE, SUB, UNSUB, SUBLIST, LIST, INFO, USE
+
+1.3.2 Channels
+A channel is a named group of one or more clients which are in the parent team. Those clients will all revceive messages addressed to that channel.
+Channel names are strings which can only contains alpha numeric characters and space. Channel description are strings which can contains only alphanumeric characters and -_ /.
+Commands related to teams : CREATE, LIST, INFO, USE
+1.3.3 Threads
+A thread is a named group of one or more clients which are in the parent channel. Those clients will all receive messages addressed to that channel.
+Thread names are strings which can only contains alpha numeric characters and space. Thread description are strings which can contain all ASCII characters.
+Commands related to teams : CREATE, LIST, INFO, USE
+
+1.3.4 One-to-One
+You can also send private messages to a specific user. His client will receive all messages send to the user.
+Usernames are strings which can only contains alpha numeric characters and space. Messages can contain all ASCII characters.
+2. THE EPC SPECIFICATION
+2.1 Overview
+The protocol as described herein is for use both with server to server and client to server connections.  There are, however, more restrictions on client connections (which are considered to be untrustworthy) than on server connections.
+
+2.2 Valid characters
+No specific character set is specified. The protocol is based on a set of codes which are composed of eight (8) bits, making an octet. Each message may be composed of any number of these octets; however, some octet values are used for control codes which act as message delimiters.
+Regardless of being an 8-bbit protocol, ,the delimiters and keywords are such that protocol is mostly usable from ISASCII terminal and a telnet connection.
+
+2.3 Command Format
+Servers and clients send each other messages which may or may not generate a reply. If the message contains a valid command, as described in later sections, the client should expect a reply as specified but it is not advised to wait forever for the reply; client to server is essentially asynchronous in nature.
+Each ETI message may consist of up to two (2) main parts: the command and the command parameters. Parameters are separated by one or more ASCII space characters.
+The command must be a valid ETI command.
+ETI messages are always lines of characters terminated with a CR-LF(Caerriage-Return  Line Feed) pair, and these messages shall not exceed 1024 characters in length, countin all characters including the trailing CR-LF.
+
+3. MESSAGE DETAILS
+On the following pages are descriptions of each message recognized by the IRC server and client.  All commands described in this section must be implemented by any server for this protocol.
+3.1 Connection
+The commands described here are used to register a connection with an IRC server as either a user or a server as well as correctly disconnect.
+--
+A LOGIN command is required to connect client to the server.
+COMMAND :
+	LOGIN <USER_ID>
+PARAMETERS :
+      <USER_ID>  Username of the user
+RETURN VALUE
+      LOGINOK <USERNAME> <UUID>: Logged in successfully
+
+--
+A LOGOUT command is required to Disconnect the client from the server
+COMMAND :
+	LOGOUT
+PARAMETERS :
+      No Arguments
+RETURN VALUE
+      LOGOUTOK <UUID> <USERNAME>: Logged out successfully
+
+3.2  User commands
+--
+The command USERLIST list all the user.
+COMMAND :
+      USERLIST
+PARAMETERS:
+      No Arguments
+RETURN VALUE
+      USERLISTOKOK <UUID> <USERNAME> <STATUS>: User list send to client
+
+--
+The command USER gets all information about USER_ID
+COMMAND :
+      USER <USER_ID>
+PARAMETERS:
+      <USER_ID>  Username of the user
+RETURN VALUE
+      USEROK <UUID> <USERNAME> <STATUS>: User informations send to client
+
+3.3 Message commands
+--
+The command SEND send MSG to USER_ID
+COMMAND :
+      SEND <USER_ID> <MSG>
+PARAMETERS:
+      <USER_ID>  Username of the user
+      <MSG>  Message send to the recipient
+RETURN VALUE
+      OK : User informations send to client
+      MESSAGEFROM <UUID> <MESSAGE> : Message recceive by receiver.
+--
+The command MESSAGE  list all the message listed with the <USER_ID>
+COMMAND :
+      MESSAGES <USER_ID>
+PARAMETERS:
+      <USER_ID>  Username of the user
+RETURN VALUE
+      MESSAGEOK <UUID> <TIME> <MESSAGE>: Send messages
+
+3.4 Teams command
+--
+The command SUB  subscribes to a team and its subdirectories
+COMMAND :
+      SUB  <TEAM_ID>
+PARAMETERS:
+      <TEAM_ID>  Team name
+RETURN VALUE
+      SUBOK <TEAM_ID>: Command executed successfully
+
+--
+The command SUBLIST  list all subscribed teams
+COMMAND :
+      SUBLIST
+PARAMETERS:
+      No Arguments
+      or <TEAM_ID>  Team name
+RETURN VALUE
+      SUBLISTTEAM <TEAM_ID> <TEAM_NAME> <TEAM_DESC> : Return all teams info
+      SUBLISTUSER <UUID> <USERNAME> <STATUS> : Return all subscribed user info
+
+--
+The command UNSUB   Unsubscribe from TEAM_ID
+COMMAND :
+      UNSUB <TEAM_ID>
+PARAMETERS
+      <TEAM_ID>  Team name
+RETURN VALUE:
+      UNSUBOK <TEAM_ID>: Command executed successfully
+
+--
+The command CREATETEAM create a team
+COMMAND:
+	CREATETEAM <TEAM_NAME> <TEAM_DESC>
+PARAMETERS:
+	<TEAM_NAME> : Team name
+	<TEAM_DESC>: Team description
+RETURN :
+	TEAMCREATED <TEAM_ID> <TEAM_NAME> <TEAM_DESC>: Command succesfuly executed
+
+--
+The command INFOTEAM Display team informations
+COMMAND:
+	INFOTEAM <TEAM_ID>
+PARAMETERS:
+	<TEAM_ID> : Team Name
+RETURN :
+	INFOTEAMOK <UUID> <TEAM_NAME> <TEAM_DESC>: list all informations
+
+
+3.5 Channels commands
+--
+The command CREATECHAN create a channel.
+COMMAND:
+	CREATECHAN <CHAN_NAME> <CHAN_DESC>
+PARAMETERS:
+	<CHAN_NAME> : Channel name
+	<CHAN_DESC>: Channel description
+RETURN :
+	CHANCREATED <CHAN_ID> <CHAN_NAME> <CHAN_DESC>: Command successfully executed
+
+--
+The command INFOCHAN Display channel informations
+COMMAND:
+	INFOCHAN <CHAN_ID>
+PARAMETERS:
+	<CHAN _ID> : Team Name
+RETURN :
+	INFOCHANOK <UUID> <CHAN_NAME> <CHAN_DESC>: list all informations
+
+
+3.6 Thread commands
+--
+The command CREATETHREAD create a Thread.
+COMMAND:
+	CREATETHREAD <THREAD_NAME> <THREAD_DESC>
+PARAMETERS:
+	<THREAD_NAME> : Thread name
+	<THREAD_DESC>: Thread description
+RETURN :
+	THREADCREA: Command successfully executed
+
+--
+The command INFOTHREAD Display thread informations
+COMMAND:
+	INFOTHREAD <THREAD_ID>
+PARAMETERS:
+	< THREAD_ID> : Team Name
+RETURN :
+	INFOTHREADOK <THREAD_ID> <TIME> <THREAD_NAME> <THREAD_DESC> : list all informations
+
+
+3.7 Server commands
+--
+The command USE Use specify a context team/channel/thread
+COMMAND :
+USE <TEAM_ID> or USE <TEAM_ID> <CHAN_ID> or USE <TEAM_ID> <CHAN_ID> <THREAD_ID>
+PARAMETERS:
+<TEAM_ID>  Team name
+or
+<CHAN_ID>  Channel name
+or
+<THREAD_ID>  Channel name
+RETURN VALUE
+      USEOK :<USE_TYPE> <USE_UUID> : Command executed successfully
+
+4. Error Replies
+
+4.1 Client Error
+--
+ERR_CONNECT
+Description : Cannot connected you to the server
+
+4.2 Server Error
+--
+ERR_CMD
+DESCRITPION: Server did not understand your command
+
+--
+ERR_SERVER
+DESCRITPION: Server got a problem (malloc failed, write failed,....)
+
+--
+ERR_LOGIN
+DESCRITPION: You are not login !
+
+--
+ERR_NOTSUB
+DESCRITPION: You are not subscribed to this team !
+
+--
+ERR_VALIDUSER
+DESCRITPION: This user doesn't exist
+
+--
+ERR_UKN_TEAM
+DESCRITPION: This team doesn't exist
+
+--
+ERR_UKN_CHAN
+DESCRITPION: This channel doesn't exist
+
+--
+ERR_UKN_THRD
+DESCRITPION: This thread doesn't exist
+
+--
+ERR_ALREADY
+DESCRITPION: The element that you are creating, exist already
+
+May 2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
