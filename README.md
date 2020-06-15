@@ -1,6 +1,3 @@
-# epitech-semester3
-
-
 myFTP : 44.1%
 /		01 - Preliminaries : 100%
 /		02 - Error management : 100%
